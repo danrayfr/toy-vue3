@@ -1,5 +1,5 @@
 <script setup>
-import { queryToys } from "@/composables/query/queryToys"
+import { queryToys } from "@/gql/query/queryToys"
 
 let { toys, error, loading } = queryToys();
 </script>

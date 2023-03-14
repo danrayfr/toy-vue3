@@ -1,5 +1,5 @@
 <script setup>
-import { queryUsers } from "@/composables/query/queryUsers";
+import { queryUsers } from "@/gql/query/queryUsers";
 
 let { users, error, loading } = queryUsers();
 </script>
