@@ -1,0 +1,90 @@
+<template>
+  <div class="home">
+    <h1>This is Home page</h1>
+  <div v-if="result?.allUsers.length">
+    <ul v-for="toy of result?.allToys" :key="toy.id">
+      <li>{{ toy.name }}</li>
+      <li>{{ toy.description }}</li>
+      <li>{{ toy.images }}</li>
+      <div v-for="image in toy.images" :key="image">
+        <p> {{ image }}</p>
+      </div>
+      <li>{{ toy.postedBy.name }}</li>
+    </ul>
+  </div>
+  <div v-else>Loading Toys.....</div>
+
+  <div v-if="result?.allUsers.length">
+    <ul v-for="user of result?.allUsers" :key="user.id">
+      <li>{{ user.name }}</li>
+      <li>{{ user.email }}</li>
+      <li>{{ user.images }}</li>
+      <li>{{ user.admin }}</li>
+    </ul>
+  </div>
+  <div v-else>Loading Users.....</div>
+
+  {{ result?.toy.name }}
+
+
+  </div>
+</template>
+
+<script>
+import { useQuery } from '@vue/apollo-composable'
+import gql from 'graphql-tag'
+import { ref, watch } from 'vue'
+// @ is an alias to /src
+export default {
+  name: 'Home',
+  components: {},
+  setup() {
+    let id = ref(null)
+    const toy = ref(null)
+    const { result } = useQuery(gql`
+      query {
+        allToys { 
+          id
+          name
+          description
+          images
+          createdAt
+          postedBy {
+            name
+          }
+        }, 
+        allUsers { 
+          id
+          name
+          email
+          admin
+        }, 
+        toy(id: 34) {
+          name
+          description
+          images
+          postedBy {
+            name
+          }
+        }
+      }
+    `)
+
+    watch(result, () => {
+      if(result?.value) { 
+        console.log(result.value)
+      }
+    })
+
+    return { result }
+  }
+}
+</script>
+
+<style>
+ul { 
+  list-style: none;
+  align: left;
+  border-bottom: 1px solid #222;
+}
+</style>
