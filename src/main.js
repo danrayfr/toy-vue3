@@ -1,31 +1,17 @@
-  import { createApp, provide, h } from 'vue'
-  import App from './App.vue'
-  import router from './router'
+import { createApp, h } from 'vue'
+import App from './App.vue'
+import router from './router'
 
-  import { ApolloClient, createHttpLink, InMemoryCache } from '@apollo/client/core'
-  import { DefaultApolloClient } from '@vue/apollo-composable'
+import { provideApolloClient } from '@vue/apollo-composable'
+import { getHeaders } from '../apolloClient';
+let { apolloClient } = getHeaders();
 
-  // HTTP connection to the API
-  const httpLink = createHttpLink({
-    // You should use an absolute URL here
-    uri: 'http://localhost:3000/graphql',
-  })
+const app = createApp({
+  setup () {
+    provideApolloClient(apolloClient);
+  },
 
-  // Cache implementation
-  const cache = new InMemoryCache()
+  render: () => h(App),
+})
 
-  // Create the apollo client
-  const apolloClient = new ApolloClient({
-    link: httpLink,
-    cache,  
-  })
-
-  const app = createApp({
-    setup () {
-      provide(DefaultApolloClient, apolloClient)
-    },
-
-    render: () => h(App),
-  })
-
-  app.use(router).mount('#app')
+app.use(router).mount('#app')

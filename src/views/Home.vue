@@ -1,9 +1,11 @@
 <script setup>
+import { ref } from 'vue'
 import { queryToys } from "@/gql/query/queryToys"
 
 let { toys, error, loading } = queryToys();
+const startingUrl = ref('');
+startingUrl.value = "http://127.0.0.1:3000/"
 </script>
-
 
 <template>
   <div class="about">
@@ -24,9 +26,10 @@ let { toys, error, loading } = queryToys();
         <td>{{ toy.id }}</td>
         <td>{{ toy.name }}</td>
         <td>{{ toy.description }}</td>
-        <div v-if="toy.images.length">
-          <div v-for="image in toy.images" :key="image">
-            <td>{{ image }}</td>
+        <div v-if="toy.imagesUrl.length">
+          <div v-for="image in toy.imagesUrl" :key="image">
+            <td><img :src="startingUrl + '/' + image" /></td>
+            <img src="" alt="">
           </div>
         </div>
         <div v-else><td>No image available.</td></div>

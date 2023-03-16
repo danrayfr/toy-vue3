@@ -30,7 +30,7 @@ export function mutateCreateUser() {
       }
     }
   `;
-  console.log(hasRegister.value)
+  
   const { mutate: createUser, loading } = useMutation(CREATE_USER_MUTATION);
 
   const register = async() => {
@@ -67,6 +67,7 @@ export function mutateCreateUser() {
 
     } catch(e) { 
       error.value = e.message || 'An unknown error occurred';
+    } finally {
       hasRegister.value = false;
     }
   };

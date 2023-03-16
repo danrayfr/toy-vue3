@@ -9,7 +9,7 @@ export function queryToys() {
         id
         name
         description
-        images
+        imagesUrl
         postedBy {
           name
         }

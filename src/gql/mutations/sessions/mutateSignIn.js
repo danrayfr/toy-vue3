@@ -1,4 +1,4 @@
-import { useMutation } from '@vue/apollo-composable';
+import { useMutation, useApolloClient } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
 import { ref, computed } from 'vue';
 
@@ -28,6 +28,7 @@ export function mutateSignIn() {
   `;
 
   const { mutate: signInUser, loading } = useMutation(SIGN_IN_MUTATION);
+  const apolloClient = useApolloClient();
 
   const login = async() => {
     if (!email.value || !password.value) {
@@ -57,7 +58,7 @@ export function mutateSignIn() {
       }
 
       localStorage.setItem('token', JSON.stringify(token.value));
-
+  
       return user, token, email.value
 
     } catch(e) { 

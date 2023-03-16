@@ -1,14 +1,11 @@
 <script setup>
-// import { provideApolloClient } from '@vue/apollo-composable';
-// import { ApolloClient } from '@apollo/client/core';
-// provideApolloClient(ApolloClient);
 </script>
-
 
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link> | 
+    <router-link :to="{name: 'toy'}">Toy</router-link> |
     <router-link :to="{name: 'login'}">Login</router-link> |
     <router-link :to="{name: 'register'}">Register</router-link>
   </nav>
