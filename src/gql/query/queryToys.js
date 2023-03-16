@@ -10,6 +10,7 @@ export function queryToys() {
         name
         description
         imagesUrl
+        createdAt
         postedBy {
           name
         }
