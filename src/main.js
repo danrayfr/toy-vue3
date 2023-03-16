@@ -1,6 +1,7 @@
 import { createApp, h } from 'vue'
 import App from './App.vue'
 import router from './router'
+import './assets/main.css'
 
 import { provideApolloClient } from '@vue/apollo-composable'
 import { getHeaders } from '../apolloClient';

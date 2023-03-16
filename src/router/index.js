@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import Login from '../views/session/Login.vue'
 import Register from '../views/registration/Register.vue'
+import ToyDetails from '../views/ToyDetails.vue'  
 
 const routes = [
   {
@@ -39,6 +40,12 @@ const routes = [
     path: '/toy',
     name: 'toy',
     component: () => import( /* webpackChunkName: "toy" */ '@/views/Toy.vue')
+  },
+  {
+    path: '/toys/:id',
+    name: 'toy-details',
+    component: ToyDetails,
+    props: true
   }
 ]
 

@@ -21,7 +21,7 @@ let { name, email, password, error, hasRegister, register } = mutateCreateUser()
         <input type="password" v-model="password" placeholder="Enter your password">
       </div>      
       <div>
-        <button type="submit" :disabled="hasRegister">Register</button>
+        <button class="register" type="submit" :disabled="hasRegister">Register</button>
       </div>
     </form>
   </div>
@@ -34,5 +34,4 @@ button[disabled] {
   color: #666666;
   cursor: not-allowed !important;
 }
-
 </style>
