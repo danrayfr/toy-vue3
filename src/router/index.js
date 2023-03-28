@@ -42,9 +42,15 @@ const routes = [
     component: () => import( /* webpackChunkName: "toy" */ '@/views/Toy.vue')
   },
   {
-    path: '/toys/:id',
+    path: '/toy/:id',
     name: 'toy-details',
     component: ToyDetails,
+    props: true
+  },
+  {
+    path: '/toy/:id/edit',
+    name: 'update-toy',
+    component: () => import( /* webpackChunkName: "toy" */ '@/views/UpdateToy.vue'),
     props: true
   }
 ]

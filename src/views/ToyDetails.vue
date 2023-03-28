@@ -47,11 +47,17 @@
         </div>
     </div>
   </div>
+
+  <div>
+    <button class="submit" type="submit" @click="remove">Delete</button>
+    <button class="submit" type="submit" @click="edit">Edit</button>
+  </div>  
 </template>
 
 <script setup>
+import { useRouter, useRoute } from 'vue-router'
 import { defineProps, computed } from 'vue';
-import { useQuery } from '@vue/apollo-composable';
+import { useMutation } from '@vue/apollo-composable';
 import { gql } from "graphql-tag";
 import { queryToy } from '@/gql/query/queryToy';
 
@@ -64,6 +70,53 @@ const props = defineProps({
 });
 
 let { formattedTime, images, toy, error, loading } = queryToy(props.id);
+
+const router = useRouter()
+const route = useRoute()
+
+const DELETE_TOY = gql`
+  mutation REMOVE_TOY($id: ID!) {
+    deleteToy(input: {
+      id: $id
+    }) {
+      toy {
+        id
+        name
+      }
+    }
+  }
+`;
+
+const { mutate: deleteToy } = useMutation(DELETE_TOY);
+
+const edit = () => { 
+  router.push({ name: 'update-toy', params: { id: props.id }})
+}
+
+const remove = async() => {
+  const variables = {
+    id: props.id
+  }
+
+  try { 
+    const { data } = await deleteToy(variables);
+
+    const toy = computed(() => data.deleteToy?.toy ?? []);
+      console.log("Toy:", toy.value);
+  
+      const errors = computed(() => data.deleteToy?.errors ?? []);
+  
+      error.value = errors;
+
+      router.push({ name: 'home' });
+  
+      return toy.value, errors;
+  }catch(e) {
+    error.value = e.message || "An unknown error occured"
+    console.log("Error:", error.value);
+  } 
+
+};
 
 </script>
 

@@ -1,3 +1,4 @@
+import { useRouter } from 'vue-router';
 import { useMutation } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
 import { ref, computed} from 'vue';
@@ -8,6 +9,9 @@ export function createToyMutation() {
   const images = ref([]);
   let error = ref('');
   const hasCreate = ref(false);
+
+  const router = useRouter();
+
 
   const ADD_TOY_MUTATION = gql`
     mutation addToy($name: String!, $description: String!, $images: [String!]) {
@@ -63,6 +67,8 @@ export function createToyMutation() {
       const errors = computed(() => data.createToy?.errors ?? []);
   
       error.value = errors;
+
+      router.push({ name: 'toy-details', params: { id: toy.value.id }})
   
       return toy.value, errors;
   

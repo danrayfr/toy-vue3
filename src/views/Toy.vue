@@ -20,9 +20,10 @@
 </template>
 
 <script setup>
-import { createToyMutation } from "@/gql/mutations/toy/createToyMutation.js"
+import { createToyMutation } from "@/gql/mutations/toy/createToyMutation.js";
 
 let { name, description, images, create, hasCreate, error } = createToyMutation();
+
 </script>
 
 <style scoped>
