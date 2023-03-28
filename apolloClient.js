@@ -30,14 +30,14 @@ export function getHeaders() {
   const apolloClient = new ApolloClient({
     link: concat(authMiddleware, httpLink),
     cache,
-    // defaultOptions: {
-    //   query: {
-    //     errorPolicy: "all",
-    //   },
-    //   mutate: {
-    //     errorPolicy: "all",
-    //   },
-    // },
+    defaultOptions: {
+      query: {
+        errorPolicy: "all",
+      },
+      mutate: {
+        errorPolicy: "all",
+      },
+    },
   })
 
   return { apolloClient }

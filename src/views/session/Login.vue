@@ -18,7 +18,7 @@ let { email, password, login } = mutateSignIn();
         <input type="password" v-model="password" placeholder="Enter your password">
       </div>      
       <div>
-        <button type="submit">Login</button>
+        <button class="login" type="submit">Login</button>
       </div>
     </form>
   </div>

@@ -12,7 +12,7 @@
       </div>
 
       <div>
-        <button type="submit">Create Toy</button>
+        <button class="submit" type="submit" :disabled="hasCreate">Create Toy</button>
       </div>
     </form>
   </div>
@@ -20,84 +20,9 @@
 </template>
 
 <script setup>
-import { useMutation } from '@vue/apollo-composable';
-import gql from 'graphql-tag';
-import { ref, computed} from 'vue';
-import { getHeaders } from '../../apolloClient.js';
+import { createToyMutation } from "@/gql/mutations/toy/createToyMutation.js"
 
-const name = ref('');
-const description = ref('');
-const images = ref([]);
-// const user = ref('');
-let error = ref('');
-
-const ADD_TOY_MUTATION = gql`
-  mutation addToy($name: String!, $description: String!, $images: [String!]) {
-    createToy(input: {
-      name: $name,
-      description: $description,
-      images: $images,
-    }) {
-      toy {
-        id
-        name
-        description
-        imagesUrl
-        postedBy {
-          id
-          name
-        }
-      }
-    }
-  }
-`;
-
-const { mutate: createToy } = useMutation(ADD_TOY_MUTATION);
-
-const create = async() => {
-
-  if (!name.value && !description.value) {
-    console.log("All fields are required.");
-    return;
-  }
-
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    console.log("User not authenticated");
-    return;
-  }
-
-  const variables = {
-    name: name.value,
-    description: description.value,
-    images: images.value
-  }
-  
-  try {
-    const { data } = await createToy(variables)
-    
-    console.log("Data:", data);
-
-    const createToyResult = data.createToy;
-    console.log("createToyResult:", createToyResult);
-
-    const toy = computed(() => createToyResult?.toy ?? []);
-    console.log("Toy:", toy.value);
-
-    const errors = computed(() => createToyResult?.errors ?? []);
-    console.log("Errors:", errors.value);
-
-    error.value = errors;
-
-    return toy.value;
-
-  }catch(e) {
-    error.value = e.message || "An unknown error occured"
-    console.log("Error:", error.value);
-  }
-};
-
+let { name, description, images, create, hasCreate, error } = createToyMutation();
 </script>
 
 <style scoped>
@@ -109,7 +34,15 @@ textarea {
   border: 2px solid #ccc;
   border-radius: 4px;
   background-color: #fff;
-  font-size: 12px;
+  font-size: 1em;
   resize: none;
 }
+
+button[disabled] { 
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed !important;
+}
+
 </style>

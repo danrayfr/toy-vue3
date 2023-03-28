@@ -40,7 +40,9 @@ input[type="name"], input[type=email], input[type=password] {
   border-radius: 4px;
 }
 
-button.register{
+button.register,
+button.login, 
+button.submit {
   background-color: #42b983;
   color: white;
   padding: 14px 20px;
@@ -51,7 +53,9 @@ button.register{
   width: 30%;
 }
 
-button.register:hover {
+button.register:hover,
+button.login:hover,
+button.submit:hover {
   opacity: 0.8;
 }
 
