@@ -23,24 +23,26 @@
 import { useMutation } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
 import { ref, computed} from 'vue';
+import { getHeaders } from '../../apolloClient.js';
 
 const name = ref('');
 const description = ref('');
 const images = ref([]);
 // const user = ref('');
-const error = ref([]);
+let error = ref('');
 
 const ADD_TOY_MUTATION = gql`
   mutation addToy($name: String!, $description: String!, $images: [String!]) {
     createToy(input: {
       name: $name,
       description: $description,
-      images: $images
+      images: $images,
     }) {
       toy {
         id
         name
         description
+        imagesUrl
         postedBy {
           id
           name
@@ -59,50 +61,42 @@ const create = async() => {
     return;
   }
 
+  const token = localStorage.getItem("token");
+
+  if (!token) {
+    console.log("User not authenticated");
+    return;
+  }
+
   const variables = {
     name: name.value,
     description: description.value,
-    images: images.value,
+    images: images.value
   }
-
+  
   try {
     const { data } = await createToy(variables)
-    if (data) {
-      console.log(data.createToy?.toy);
-    } else {
-      console.log('Data is undefined');
-    }
+    
+    console.log("Data:", data);
+
+    const createToyResult = data.createToy;
+    console.log("createToyResult:", createToyResult);
+
+    const toy = computed(() => createToyResult?.toy ?? []);
+    console.log("Toy:", toy.value);
+
+    const errors = computed(() => createToyResult?.errors ?? []);
+    console.log("Errors:", errors.value);
+
+    error.value = errors;
+
+    return toy.value;
+
   }catch(e) {
     error.value = e.message || "An unknown error occured"
+    console.log("Error:", error.value);
   }
 };
-
-// const create = async() => { 
-  // if (!name.value && !description.value) {
-  //   console.log("All fields are required.");
-  //   return;
-  // }
-
-  // const variables = {
-  //   name: name.value,
-  //   description: description.value,
-  //   images: images.value,
-  //   user_token: user.value
-  // };
-// 
-  // try { 
-  //   const { data } = await createToy(variables);
-// 
-  //   const toy = computed(() => data.createToy);
-  //   console.log(toy);
-// 
-// 
-  //   return toy;
-// 
-  // } catch(e) { 
-  //   error.value = e.message || "An unknown error occured";
-  // }
-//};
 
 </script>
 
