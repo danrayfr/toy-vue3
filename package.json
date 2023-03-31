@@ -2,10 +2,12 @@
   "name": "toy",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://danrayfr.github.io/toy-vue3/",
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "deploy": "npm run build && gh-pages -d dist"
   },
   "dependencies": {
     "@apollo/client": "^3.7.10",
