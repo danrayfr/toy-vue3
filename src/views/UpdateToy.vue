@@ -12,7 +12,7 @@
       </div>
 
       <div>
-        <button class="submit" type="submit" :disabled="hasCreate">Update Toy</button>
+        <button class="submit" type="submit">Update Toy</button>
       </div>
     </form>
   </div>
@@ -88,13 +88,13 @@ const update = async() => {
 
       router.push({ name: 'toy-details', params: { id: toy.value.id }})
   
-      return toy.value, errors;
+      return toy.value, error.value;
   
     }catch(e) {
       error.value = e.message || "An unknown error occured"
       console.log("Error:", error.value);
     }
-}
+};
 
 </script>
 

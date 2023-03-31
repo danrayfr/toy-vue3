@@ -75,4 +75,9 @@ const image = computed(() => {
   }
 });
 
+
+const isAuthenticated = computed(() => {
+    return localStorage.getItem('token');
+});
+
 </script>

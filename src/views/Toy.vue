@@ -14,6 +14,7 @@
       <div>
         <button class="submit" type="submit" :disabled="hasCreate">Create Toy</button>
       </div>
+      
     </form>
   </div>
   <div v-if="error">{{error}}</div>
@@ -27,23 +28,12 @@ let { name, description, images, create, hasCreate, error } = createToyMutation(
 </script>
 
 <style scoped>
-textarea {
-  width: 30%;
-  height: 150px;
-  padding: 12px 20px;
-  box-sizing: border-box;
-  border: 2px solid #ccc;
-  border-radius: 4px;
-  background-color: #fff;
-  font-size: 1em;
-  resize: none;
-}
 
 button[disabled] { 
   border: 1px solid #999999;
   background-color: #cccccc;
   color: #666666;
-  cursor: not-allowed !important;
+  cursor: not-allowed !import ant;
 }
 
 </style>

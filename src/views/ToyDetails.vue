@@ -90,7 +90,13 @@ const DELETE_TOY = gql`
 const { mutate: deleteToy } = useMutation(DELETE_TOY);
 
 const edit = () => { 
-  router.push({ name: 'update-toy', params: { id: props.id }})
+  if (isAuthenticated.value) { 
+    router.push({ name: 'update-toy', params: { id: props.id }})
+  }
+  else 
+  {
+    router.push({ name: 'login'})
+  }
 }
 
 const remove = async() => {
@@ -98,25 +104,33 @@ const remove = async() => {
     id: props.id
   }
 
-  try { 
-    const { data } = await deleteToy(variables);
+  if (isAuthenticated.value) {
+    try { 
+      const { data } = await deleteToy(variables);
 
-    const toy = computed(() => data.deleteToy?.toy ?? []);
-      console.log("Toy:", toy.value);
-  
-      const errors = computed(() => data.deleteToy?.errors ?? []);
-  
-      error.value = errors;
+      const toy = computed(() => data.deleteToy?.toy ?? []);
+        console.log("Toy:", toy.value);
+    
+        const errors = computed(() => data.deleteToy?.errors ?? []);
+    
+        error.value = errors;
 
-      router.push({ name: 'home' });
-  
-      return toy.value, errors;
-  }catch(e) {
-    error.value = e.message || "An unknown error occured"
-    console.log("Error:", error.value);
-  } 
+        router.push({ name: 'home' });
+
+        return toy.value, errors;
+    }catch(e) {
+      error.value = e.message || "An unknown error occured"
+      console.log("Error:", error.value);
+    } 
+  } else {
+    router.push({ name: 'login' });
+  }
 
 };
+
+const isAuthenticated = computed(() => {
+    return localStorage.getItem('token');
+});
 
 </script>
 

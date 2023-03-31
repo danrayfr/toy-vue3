@@ -10,9 +10,10 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue'
+import { onMounted, ref } from 'vue'
 import { queryToys } from "@/gql/query/queryToys"
 import Toys from "@/components/Toys.vue";
 
 let { toys, error, loading } = queryToys();
+
 </script>

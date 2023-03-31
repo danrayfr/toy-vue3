@@ -1,3 +1,4 @@
+import { useRouter } from 'vue-router';
 import { useMutation, useApolloClient } from '@vue/apollo-composable';
 import gql from 'graphql-tag';
 import { ref, computed } from 'vue';
@@ -6,6 +7,7 @@ export function mutateSignIn() {
   let email = ref('');
   let password = ref('');
   let error = ref([]);
+  const router = useRouter();
 
   const SIGN_IN_MUTATION = gql`
     mutation signUser($email: String!, $password: String!) {
@@ -58,6 +60,8 @@ export function mutateSignIn() {
       }
 
       localStorage.setItem('token', JSON.stringify(token.value));
+
+      router.push({ name: 'home' })
   
       return user, token, email.value
 
